@@ -300,12 +300,12 @@ function App({ signOut, user }: AppProps) {
       const items = result.data?.listProducts?.items || []
       console.log('Products found:', items.length)
       setProducts(items.filter(item => item !== null) as Product[])
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching products:', error)
       console.error('Full error object:', JSON.stringify(error, null, 2))
       if (error.errors) {
         console.error('GraphQL errors:', error.errors)
-        error.errors.forEach((err, index) => {
+        error.errors.forEach((err: any, index: number) => {
           console.error(`Error ${index + 1}:`, err.message, err)
         })
       }
@@ -370,7 +370,7 @@ function App({ signOut, user }: AppProps) {
       resetForm()
       fetchProducts()
       alert('Product saved successfully!')
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving product:', error)
       alert(`Error saving product: ${error.message || error}`)
     }
@@ -683,7 +683,7 @@ function App({ signOut, user }: AppProps) {
               </Text>
               {currentUser.role === 'VIEWER' && (
                 <Button
-                  onClick={() => updateUserRole(currentUser.id, 'ADMIN')}
+                  onClick={() => updateUserRole(currentUser.id, 'ADMIN' as UserRole)}
                   size="small"
                   style={{
                     backgroundColor: '#ef4444',
@@ -1261,6 +1261,7 @@ function App({ signOut, user }: AppProps) {
                         {/* Add Comment */}
                         <Flex gap="0.5rem" marginBottom="1rem">
                           <TextField
+                            label=""
                             placeholder="Add a comment..."
                             value={newComment[product.id] || ''}
                             onChange={(e) => setNewComment(prev => ({ ...prev, [product.id]: e.target.value }))}
