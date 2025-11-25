@@ -391,11 +391,21 @@ function App({ signOut, user }: AppProps) {
 
   const invokeLowStockAlert = async () => {
     try {
-      const result = await client.graphql({ query: checkLowStock })
+      const result = await client.graphql({ 
+        query: checkLowStock,
+        authMode: 'apiKey'
+      })
       console.log('Low stock alert result:', result)
       return result.data?.checkLowStock
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error invoking low stock alert:', error)
+      if (error.errors) {
+        console.error('GraphQL errors:', error.errors)
+        error.errors.forEach((err: any, index: number) => {
+          console.error(`Error ${index} message:`, err.message)
+          console.error(`Error ${index} details:`, err)
+        })
+      }
       throw error
     }
   }
@@ -462,7 +472,7 @@ function App({ signOut, user }: AppProps) {
       }
     })
 
-  const checkLowStock = async () => {
+  const checkLowStockProducts = async () => {
     try {
       console.log('Calling Lambda function for low stock check...')
       const result = await invokeLowStockAlert()
@@ -486,7 +496,7 @@ function App({ signOut, user }: AppProps) {
   useEffect(() => {
     fetchProducts()
     initializeUser()
-    checkLowStock()
+    checkLowStockProducts()
   }, [])
 
   return (

@@ -63,5 +63,5 @@ type LowStockProduct {
 }
 
 type Mutation {
-  checkLowStock: LowStockResult @function(name: "lowStockAlert")
+  checkLowStock: LowStockResult @function(name: "lowStockAlert") @aws_api_key
 }
