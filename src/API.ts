@@ -50,20 +50,18 @@ export type ModelIntInput = {
   attributeType?: ModelAttributeTypes | null,
 };
 
-export const ModelAttributeTypes = {
-  binary: "binary",
-  binarySet: "binarySet",
-  bool: "bool",
-  list: "list",
-  map: "map",
-  number: "number",
-  numberSet: "numberSet",
-  string: "string",
-  stringSet: "stringSet",
-  _null: "_null",
-} as const;
-
-export type ModelAttributeTypes = typeof ModelAttributeTypes[keyof typeof ModelAttributeTypes];
+export enum ModelAttributeTypes {
+  binary = "binary",
+  binarySet = "binarySet",
+  bool = "bool",
+  list = "list",
+  map = "map",
+  number = "number",
+  numberSet = "numberSet",
+  string = "string",
+  stringSet = "stringSet",
+  _null = "_null",
+}
 
 
 export type ModelStringInput = {
@@ -171,13 +169,11 @@ export type CreateUserInput = {
   updatedAt?: string | null,
 };
 
-export const UserRole = {
-  ADMIN: "ADMIN",
-  MANAGER: "MANAGER",
-  VIEWER: "VIEWER",
-} as const;
-
-export type UserRole = typeof UserRole[keyof typeof UserRole];
+export enum UserRole {
+  ADMIN = "ADMIN",
+  MANAGER = "MANAGER",
+  VIEWER = "VIEWER",
+}
 
 
 export type ModelUserConditionInput = {
@@ -329,12 +325,10 @@ export type ModelCommentFilterInput = {
   not?: ModelCommentFilterInput | null,
 };
 
-export const ModelSortDirection = {
-  ASC: "ASC",
-  DESC: "DESC",
-} as const;
-
-export type ModelSortDirection = typeof ModelSortDirection[keyof typeof ModelSortDirection];
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
 
 
 export type ModelSubscriptionProductFilterInput = {
