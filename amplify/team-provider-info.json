@@ -28,5 +28,43 @@
         }
       }
     }
+  },
+  "mainenv": {
+    "awscloudformation": {},
+    "categories": {
+      "function": {
+        "lowStockAlert": {}
+      }
+    }
+  },
+  "newenv": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-productcatalog-newenv-d05e8-authRole",
+      "UnauthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-newenv-d05e8-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-newenv-d05e8-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-productcatalog-newenv-d05e8-deployment",
+      "UnauthRoleName": "amplify-productcatalog-newenv-d05e8-unauthRole",
+      "StackName": "amplify-productcatalog-newenv-d05e8",
+      "StackId": "arn:aws:cloudformation:us-east-1:079385506759:stack/amplify-productcatalog-newenv-d05e8/c7c7c7e0-ca3d-11f0-a1b0-0affe3485391",
+      "AmplifyAppId": "d2lgobnfhyrnhh"
+    },
+    "categories": {
+      "auth": {
+        "productcatalog6e145452": {}
+      },
+      "function": {
+        "lowStockAlert": {
+          "deploymentBucketName": "amplify-productcatalog-newenv-d05e8-deployment",
+          "s3Key": "amplify-builds/lowStockAlert-3331685a74454f794146-build.zip"
+        }
+      },
+      "api": {
+        "productcatalog": {}
+      },
+      "storage": {
+        "productimages3": {}
+      }
+    }
   }
 }

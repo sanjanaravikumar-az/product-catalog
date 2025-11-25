@@ -2,6 +2,18 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type LowStockResult = {
+  __typename: "LowStockResult",
+  message: string,
+  lowStockProducts:  Array<LowStockProduct >,
+};
+
+export type LowStockProduct = {
+  __typename: "LowStockProduct",
+  name: string,
+  stock: number,
+};
+
 export type CreateProductInput = {
   id?: string | null,
   serialno: number,
@@ -431,6 +443,21 @@ export type ModelSubscriptionCommentFilterInput = {
   and?: Array< ModelSubscriptionCommentFilterInput | null > | null,
   or?: Array< ModelSubscriptionCommentFilterInput | null > | null,
   authorId?: ModelStringInput | null,
+};
+
+export type CheckLowStockMutationVariables = {
+};
+
+export type CheckLowStockMutation = {
+  checkLowStock?:  {
+    __typename: "LowStockResult",
+    message: string,
+    lowStockProducts:  ({
+      __typename: "LowStockProduct",
+      name: string,
+      stock: number,
+    })[],
+  } | null,
 };
 
 export type CreateProductMutationVariables = {

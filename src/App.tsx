@@ -3,7 +3,7 @@ import { generateClient } from 'aws-amplify/api'
 import { uploadData, getUrl } from 'aws-amplify/storage'
 import { getCurrentUser } from 'aws-amplify/auth'
 import { listProducts, listUsers, getUser, listComments } from './graphql/queries.ts'
-import { createProduct, deleteProduct, updateProduct, createUser, updateUser, createComment } from './graphql/mutations.ts'
+import { createProduct, deleteProduct, updateProduct, createUser, updateUser, createComment, checkLowStock } from './graphql/mutations.ts'
 import type { Product, User, Comment, UserRole } from './API'
 import './App.css'
 import { withAuthenticator, Button, Card, Flex, Text, Badge, View, TextField, TextAreaField, SelectField, Loader } from '@aws-amplify/ui-react'
@@ -389,9 +389,23 @@ function App({ signOut, user }: AppProps) {
     }
   }
 
+  const invokeLowStockAlert = async () => {
+    try {
+      const result = await client.graphql({ query: checkLowStock })
+      console.log('Low stock alert result:', result)
+      return result.data?.checkLowStock
+    } catch (error) {
+      console.error('Error invoking low stock alert:', error)
+      throw error
+    }
+  }
+
   const downloadStockReport = async () => {
     setStockCheckLoading(true)
     try {
+      // Invoke the Lambda function
+      const lambdaResult = await invokeLowStockAlert()
+      
       const lowStock = products.filter(p => (p.stock || 0) < 5)
       
       if (lowStock.length > 0) {
@@ -423,7 +437,7 @@ function App({ signOut, user }: AppProps) {
       window.URL.revokeObjectURL(url)
       
       if (lowStock.length > 0) {
-        alert(`Downloaded stock report! Found ${lowStock.length} products with low stock.`)
+        alert(`Downloaded stock report! Found ${lowStock.length} products with low stock. Lambda result: ${(lambdaResult as any).message}`)
       } else {
         alert('Downloaded report: All products are well stocked!')
       }
@@ -448,12 +462,31 @@ function App({ signOut, user }: AppProps) {
       }
     })
 
-  // Auto-check for low stock on load
-  const lowStockProducts = products.filter(p => (p.stock || 0) < 5)
+  const checkLowStock = async () => {
+    try {
+      console.log('Calling Lambda function for low stock check...')
+      const result = await invokeLowStockAlert()
+      const lambdaResult = result as any
+      console.log('Lambda result:', lambdaResult)
+      
+      if (lambdaResult.lowStockProducts && lambdaResult.lowStockProducts.length > 0) {
+        console.log('Setting low stock alert with:', lambdaResult.lowStockProducts)
+        setLowStockAlert({
+          count: lambdaResult.lowStockProducts.length,
+          products: lambdaResult.lowStockProducts.map((p: any) => `${p.name} (${p.stock} left)`)
+        })
+      } else {
+        console.log('No low stock products found')
+      }
+    } catch (error) {
+      console.error('Error checking low stock:', error)
+    }
+  }
 
   useEffect(() => {
     fetchProducts()
     initializeUser()
+    checkLowStock()
   }, [])
 
   return (
@@ -730,7 +763,7 @@ function App({ signOut, user }: AppProps) {
         )}
 
         {/* Low Stock Alert Banner */}
-        {(lowStockAlert || lowStockProducts.length > 0) && (
+        {lowStockAlert && (
           <Card 
             marginBottom="2rem"
             style={{
@@ -750,29 +783,24 @@ function App({ signOut, user }: AppProps) {
               </View>
               <View>
                 <Text fontSize="md" fontWeight="700" color="#92400e">
-                  Low Stock Alert: {lowStockAlert?.count || lowStockProducts.length} products need attention
+                  Low Stock Alert: {lowStockAlert.count} products need attention
                 </Text>
                 <Text fontSize="sm" color="#b45309">
-                  {lowStockAlert ? 
-                    lowStockAlert.products.slice(0, 3).join(', ') + (lowStockAlert.products.length > 3 ? '...' : '') :
-                    lowStockProducts.slice(0, 3).map(p => `${p.engword} (${p.stock || 0} left)`).join(', ')
-                  }
+                  {lowStockAlert.products.slice(0, 3).join(', ')}{lowStockAlert.products.length > 3 ? '...' : ''}
                 </Text>
               </View>
-              {lowStockAlert && (
-                <Button
-                  onClick={() => setLowStockAlert(null)}
-                  size="small"
-                  style={{
-                    marginLeft: 'auto',
-                    backgroundColor: 'transparent',
-                    color: '#92400e',
-                    border: 'none'
-                  }}
-                >
-                  ✕
-                </Button>
-              )}
+              <Button
+                onClick={() => setLowStockAlert(null)}
+                size="small"
+                style={{
+                  marginLeft: 'auto',
+                  backgroundColor: 'transparent',
+                  color: '#92400e',
+                  border: 'none'
+                }}
+              >
+                ✕
+              </Button>
             </Flex>
           </Card>
         )}

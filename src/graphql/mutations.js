@@ -1,6 +1,19 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const checkLowStock = /* GraphQL */ `
+  mutation CheckLowStock {
+    checkLowStock {
+      message
+      lowStockProducts {
+        name
+        stock
+        __typename
+      }
+      __typename
+    }
+  }
+`;
 export const createProduct = /* GraphQL */ `
   mutation CreateProduct(
     $input: CreateProductInput!
