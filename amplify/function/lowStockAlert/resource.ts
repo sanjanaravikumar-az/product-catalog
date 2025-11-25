@@ -1,6 +1,5 @@
 import { defineFunction } from "@aws-amplify/backend";
 
-throw new Error("Source code for this function can be found in your Amplify Gen 1 Directory. See .amplify/migration/amplify/backend/function/lowStockAlert/src");
 const branchName = process.env.AWS_BRANCH ?? "sandbox";
 
 export const lowStockAlert = defineFunction({
@@ -8,6 +7,11 @@ export const lowStockAlert = defineFunction({
     name: `lowStockAlert-${branchName}`,
     timeoutSeconds: 25,
     memoryMB: 128,
-    environment: { ENV: `${branchName}`, REGION: "us-east-1" },
+    environment: { 
+        ENV: `${branchName}`, 
+        REGION: "us-east-1",
+        API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT: process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT || "",
+        API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT: process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT || ""
+    },
     runtime: 22
 });
