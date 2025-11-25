@@ -68,6 +68,16 @@
   "function": {
     "lowStockAlert": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "productcatalog"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }

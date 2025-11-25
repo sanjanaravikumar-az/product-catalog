@@ -1,7 +1,7 @@
 const https = require('https');
 
-const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT;
+const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT || 'https://5bbxkhstfrcofl3uihzbbc4jaq.appsync-api.us-east-1.amazonaws.com/graphql';
+const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT || 'da2-5plr4677q5gvpfuldjzeq3p5te';
 
 const listProductsQuery = `
   query ListProducts {
@@ -19,6 +19,16 @@ const listProductsQuery = `
 
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
+    console.log(`GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}`);
+    console.log(`GRAPHQL_API_KEY: ${GRAPHQL_API_KEY ? 'SET' : 'NOT SET'}`);
+    
+    if (!GRAPHQL_ENDPOINT || !GRAPHQL_API_KEY) {
+        console.error('Missing environment variables');
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: 'Missing GraphQL configuration' })
+        };
+    }
     
     try {
         // Fetch all products

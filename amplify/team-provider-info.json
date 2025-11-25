@@ -56,7 +56,7 @@
       "function": {
         "lowStockAlert": {
           "deploymentBucketName": "amplify-productcatalog-newenv-d05e8-deployment",
-          "s3Key": "amplify-builds/lowStockAlert-3331685a74454f794146-build.zip"
+          "s3Key": "amplify-builds/lowStockAlert-47324a4f632b4a566139-build.zip"
         }
       },
       "api": {
