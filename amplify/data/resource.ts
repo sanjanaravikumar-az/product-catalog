@@ -1,4 +1,6 @@
-# Multi-user Product Catalog with IAM-based Role Access Control
+import { defineData } from "@aws-amplify/backend";
+
+const schema = `# Multi-user Product Catalog with IAM-based Role Access Control
 
 enum UserRole {
   ADMIN
@@ -51,3 +53,17 @@ type Comment @model @auth(rules: [
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
+`;
+
+export const data = defineData({
+    migratedAmplifyGen1DynamoDbTableMappings: [{
+            //The "branchname" variable needs to be the same as your deployment branch if you want to reuse your Gen1 app tables
+            branchName: "migrate",
+            modelNameToTableNameMapping: { User: "User-5q72oqaztrebfhzn2fwfx2t2re-migrate", Product: "Product-5q72oqaztrebfhzn2fwfx2t2re-migrate", Comment: "Comment-5q72oqaztrebfhzn2fwfx2t2re-migrate" }
+        }],
+    authorizationModes: {
+        defaultAuthorizationMode: "iam",
+        apiKeyAuthorizationMode: { expiresInDays: 365 }
+    },
+    schema
+});
