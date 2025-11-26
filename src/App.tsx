@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { generateClient } from 'aws-amplify/api'
 import { uploadData, getUrl } from 'aws-amplify/storage'
 import { getCurrentUser } from 'aws-amplify/auth'
-import { listProducts, listUsers, getUser, listComments } from './graphql/queries.ts'
-import { createProduct, deleteProduct, updateProduct, createUser, updateUser, createComment, checkLowStock } from './graphql/mutations.ts'
+import { listProducts, listUsers, getUser, listComments, checkLowStock } from './graphql/queries.ts'
+import { createProduct, deleteProduct, updateProduct, createUser, updateUser, createComment } from './graphql/mutations.ts'
 import type { Product, User, Comment, UserRole } from './API'
 import './App.css'
 import { withAuthenticator, Button, Card, Flex, Text, Badge, View, TextField, TextAreaField, SelectField, Loader } from '@aws-amplify/ui-react'
@@ -389,49 +389,40 @@ function App({ signOut, user }: AppProps) {
     }
   }
 
-  const invokeLowStockAlert = async () => {
+  const checkLowStockProducts = async () => {
     try {
-      const result = await client.graphql({ 
-        query: checkLowStock,
-        authMode: 'apiKey'
-      })
-      console.log('Low stock alert result:', result)
-      return result.data?.checkLowStock
-    } catch (error: any) {
-      console.error('Error invoking low stock alert:', error)
-      if (error.errors) {
-        console.error('GraphQL errors:', error.errors)
-        error.errors.forEach((err: any, index: number) => {
-          console.error(`Error ${index} message:`, err.message)
-          console.error(`Error ${index} details:`, err)
+      const result = await client.graphql({ query: checkLowStock }) as any
+      const data = result.data?.checkLowStock
+      console.log('Lambda result:', data)
+      
+      if (data?.lowStockProducts && data.lowStockProducts.length > 0) {
+        setLowStockAlert({
+          count: data.lowStockProducts.length,
+          products: data.lowStockProducts.map((p: any) => `${p.name} (${p.stock} left)`)
         })
+      } else {
+        setLowStockAlert(null)
       }
-      throw error
+      
+      return data?.lowStockProducts || []
+    } catch (error) {
+      console.error('Error checking low stock:', error)
+      return []
     }
   }
 
   const downloadStockReport = async () => {
     setStockCheckLoading(true)
     try {
-      // Invoke the Lambda function
-      const lambdaResult = await invokeLowStockAlert()
-      
-      const lowStock = products.filter(p => (p.stock || 0) < 5)
-      
-      if (lowStock.length > 0) {
-        setLowStockAlert({
-          count: lowStock.length,
-          products: lowStock.map(p => `${p.engword} (${p.stock || 0} left)`)
-        })
-      }
+      const lowStock = await checkLowStockProducts()
       
       // Create CSV content
-      const csvHeader = 'Product Name,SKU,Current Stock,Price,Category,Brand\n'
+      const csvHeader = 'Product Name,Current Stock\n'
       const csvRows = lowStock.length > 0 
-        ? lowStock.map(p => 
-            `"${p.engword}",${p.serialno},${p.stock || 0},${p.price || 0},"${p.category || ''}","${p.brand || ''}"`
+        ? lowStock.map((p: any) => 
+            `"${p.name}",${p.stock}`
           ).join('\n')
-        : 'No low stock items found,,,,,';
+        : 'No low stock items found,';
       
       const csvContent = csvHeader + csvRows
       
@@ -447,7 +438,7 @@ function App({ signOut, user }: AppProps) {
       window.URL.revokeObjectURL(url)
       
       if (lowStock.length > 0) {
-        alert(`Downloaded stock report! Found ${lowStock.length} products with low stock. Lambda result: ${(lambdaResult as any).message}`)
+        alert(`Downloaded stock report! Found ${lowStock.length} products with low stock.`)
       } else {
         alert('Downloaded report: All products are well stocked!')
       }
@@ -472,32 +463,18 @@ function App({ signOut, user }: AppProps) {
       }
     })
 
-  const checkLowStockProducts = async () => {
-    try {
-      console.log('Calling Lambda function for low stock check...')
-      const result = await invokeLowStockAlert()
-      const lambdaResult = result as any
-      console.log('Lambda result:', lambdaResult)
-      
-      if (lambdaResult.lowStockProducts && lambdaResult.lowStockProducts.length > 0) {
-        console.log('Setting low stock alert with:', lambdaResult.lowStockProducts)
-        setLowStockAlert({
-          count: lambdaResult.lowStockProducts.length,
-          products: lambdaResult.lowStockProducts.map((p: any) => `${p.name} (${p.stock} left)`)
-        })
-      } else {
-        console.log('No low stock products found')
-      }
-    } catch (error) {
-      console.error('Error checking low stock:', error)
-    }
-  }
+
 
   useEffect(() => {
     fetchProducts()
     initializeUser()
-    checkLowStockProducts()
   }, [])
+
+  useEffect(() => {
+    if (products.length > 0) {
+      checkLowStockProducts()
+    }
+  }, [products])
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>

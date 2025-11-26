@@ -19,7 +19,8 @@ type User @model @auth(rules: [
 }
 
 type Product @model @auth(rules: [
-  { allow: private, provider: iam }
+  { allow: private, provider: iam },
+  { allow: public, provider: apiKey, operations: [read] }
 ]) {
   id: ID!
   serialno: Int!
@@ -52,16 +53,20 @@ type Comment @model @auth(rules: [
   updatedAt: AWSDateTime!
 }
 
-type LowStockResult {
-  message: String!
-  lowStockProducts: [LowStockProduct!]!
-}
-
 type LowStockProduct {
   name: String!
   stock: Int!
 }
 
-type Mutation {
-  checkLowStock: LowStockResult @function(name: "lowStockAlert") @aws_api_key
+type LowStockResponse {
+  message: String!
+  lowStockProducts: [LowStockProduct!]!
 }
+
+type Query {
+  checkLowStock: LowStockResponse @function(name: "lowstockproductcatalog-${env}") @auth(rules: [
+    { allow: private, provider: iam },
+    { allow: public, provider: apiKey }
+  ])
+}
+

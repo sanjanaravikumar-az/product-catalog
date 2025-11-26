@@ -1,7 +1,17 @@
+/* Amplify Params - DO NOT EDIT
+	API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT
+	API_PRODUCTCATALOG_GRAPHQLAPIIDOUTPUT
+	API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT
+	AUTH_PRODUCTCATALOG6E145452_USERPOOLID
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT */
+
 const https = require('https');
 
-const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT || 'https://5bbxkhstfrcofl3uihzbbc4jaq.appsync-api.us-east-1.amazonaws.com/graphql';
-const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT || 'da2-5plr4677q5gvpfuldjzeq3p5te';
+const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT;
+const LOW_STOCK_THRESHOLD = parseInt(process.env.LOW_STOCK_THRESHOLD) || 5;
 
 const listProductsQuery = `
   query ListProducts {
@@ -19,52 +29,27 @@ const listProductsQuery = `
 
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
-    console.log(`GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}`);
-    console.log(`GRAPHQL_API_KEY: ${GRAPHQL_API_KEY ? 'SET' : 'NOT SET'}`);
-    
-    if (!GRAPHQL_ENDPOINT || !GRAPHQL_API_KEY) {
-        console.error('Missing environment variables');
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: 'Missing GraphQL configuration' })
-        };
-    }
     
     try {
-        // Fetch all products
         const products = await fetchProducts();
-        
-        // Find low stock products (less than 5)
         const lowStockProducts = products.filter(product => 
-            product.stock !== null && product.stock < 5
+            product.stock !== null && product.stock < LOW_STOCK_THRESHOLD
         );
         
         console.log(`Found ${lowStockProducts.length} low stock products`);
         
-        if (lowStockProducts.length > 0) {
-            console.log('Low stock products:', lowStockProducts.map(p => ({
+        return {
+            message: `Checked ${products.length} products, found ${lowStockProducts.length} low stock items`,
+            lowStockProducts: lowStockProducts.map(p => ({
                 name: p.engword,
                 stock: p.stock
-            })));
-        }
-        
-        return {
-            statusCode: 200,
-            body: JSON.stringify({
-                message: `Checked ${products.length} products, found ${lowStockProducts.length} low stock items`,
-                lowStockProducts: lowStockProducts.map(p => ({
-                    name: p.engword,
-                    stock: p.stock
-                }))
-            })
+            }))
         };
         
     } catch (error) {
-        console.error('Error:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: error.message })
-        };
+        console.error('Error checking stock:', error.message);
+        console.error('Full error:', error);
+        throw new Error(`Error checking stock: ${error.message}`);
     }
 };
 
@@ -81,7 +66,7 @@ async function fetchProducts() {
             path: url.pathname,
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'content-type': 'application/json',
                 'x-api-key': GRAPHQL_API_KEY,
                 'Content-Length': Buffer.byteLength(postData)
             }
@@ -116,5 +101,3 @@ async function fetchProducts() {
         req.end();
     });
 }
-
-

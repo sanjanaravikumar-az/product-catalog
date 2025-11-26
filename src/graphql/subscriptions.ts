@@ -8,6 +8,60 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
+  $filter: ModelSubscriptionUserFilterInput
+  $id: String
+) {
+  onCreateUser(filter: $filter, id: $id) {
+    id
+    email
+    name
+    role
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateUserSubscriptionVariables,
+  APITypes.OnCreateUserSubscription
+>;
+export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser(
+  $filter: ModelSubscriptionUserFilterInput
+  $id: String
+) {
+  onUpdateUser(filter: $filter, id: $id) {
+    id
+    email
+    name
+    role
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateUserSubscriptionVariables,
+  APITypes.OnUpdateUserSubscription
+>;
+export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
+  $filter: ModelSubscriptionUserFilterInput
+  $id: String
+) {
+  onDeleteUser(filter: $filter, id: $id) {
+    id
+    email
+    name
+    role
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteUserSubscriptionVariables,
+  APITypes.OnDeleteUserSubscription
+>;
 export const onCreateProduct = /* GraphQL */ `subscription OnCreateProduct($filter: ModelSubscriptionProductFilterInput) {
   onCreateProduct(filter: $filter) {
     id
@@ -88,60 +142,6 @@ export const onDeleteProduct = /* GraphQL */ `subscription OnDeleteProduct($filt
 ` as GeneratedSubscription<
   APITypes.OnDeleteProductSubscriptionVariables,
   APITypes.OnDeleteProductSubscription
->;
-export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
-  $filter: ModelSubscriptionUserFilterInput
-  $id: String
-) {
-  onCreateUser(filter: $filter, id: $id) {
-    id
-    email
-    name
-    role
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnCreateUserSubscriptionVariables,
-  APITypes.OnCreateUserSubscription
->;
-export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser(
-  $filter: ModelSubscriptionUserFilterInput
-  $id: String
-) {
-  onUpdateUser(filter: $filter, id: $id) {
-    id
-    email
-    name
-    role
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnUpdateUserSubscriptionVariables,
-  APITypes.OnUpdateUserSubscription
->;
-export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
-  $filter: ModelSubscriptionUserFilterInput
-  $id: String
-) {
-  onDeleteUser(filter: $filter, id: $id) {
-    id
-    email
-    name
-    role
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnDeleteUserSubscriptionVariables,
-  APITypes.OnDeleteUserSubscription
 >;
 export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
   $filter: ModelSubscriptionCommentFilterInput

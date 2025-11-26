@@ -2,18 +2,6 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type LowStockResult = {
-  __typename: "LowStockResult",
-  message: string,
-  lowStockProducts:  Array<LowStockProduct >,
-};
-
-export type LowStockProduct = {
-  __typename: "LowStockProduct",
-  name: string,
-  stock: number,
-};
-
 export type CreateProductInput = {
   id?: string | null,
   serialno: number,
@@ -280,6 +268,24 @@ export type DeleteCommentInput = {
   id: string,
 };
 
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  email?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  role?: ModelUserRoleInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+};
+
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items:  Array<User | null >,
+  nextToken?: string | null,
+};
+
 export type ModelProductFilterInput = {
   id?: ModelIDInput | null,
   serialno?: ModelIntInput | null,
@@ -306,24 +312,6 @@ export type ModelProductConnection = {
   nextToken?: string | null,
 };
 
-export type ModelUserFilterInput = {
-  id?: ModelIDInput | null,
-  email?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  role?: ModelUserRoleInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  and?: Array< ModelUserFilterInput | null > | null,
-  or?: Array< ModelUserFilterInput | null > | null,
-  not?: ModelUserFilterInput | null,
-};
-
-export type ModelUserConnection = {
-  __typename: "ModelUserConnection",
-  items:  Array<User | null >,
-  nextToken?: string | null,
-};
-
 export type ModelCommentFilterInput = {
   id?: ModelIDInput | null,
   productId?: ModelIDInput | null,
@@ -342,6 +330,32 @@ export enum ModelSortDirection {
   DESC = "DESC",
 }
 
+
+export type ModelSubscriptionUserFilterInput = {
+  email?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  role?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  id?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  in?: Array< string | null > | null,
+  notIn?: Array< string | null > | null,
+};
 
 export type ModelSubscriptionProductFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -389,21 +403,6 @@ export type ModelSubscriptionIntInput = {
   notIn?: Array< number | null > | null,
 };
 
-export type ModelSubscriptionStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  in?: Array< string | null > | null,
-  notIn?: Array< string | null > | null,
-};
-
 export type ModelSubscriptionFloatInput = {
   ne?: number | null,
   eq?: number | null,
@@ -416,17 +415,6 @@ export type ModelSubscriptionFloatInput = {
   notIn?: Array< number | null > | null,
 };
 
-export type ModelSubscriptionUserFilterInput = {
-  email?: ModelSubscriptionStringInput | null,
-  name?: ModelSubscriptionStringInput | null,
-  role?: ModelSubscriptionStringInput | null,
-  createdAt?: ModelSubscriptionStringInput | null,
-  updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
-  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
-  id?: ModelStringInput | null,
-};
-
 export type ModelSubscriptionCommentFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   productId?: ModelSubscriptionIDInput | null,
@@ -437,21 +425,6 @@ export type ModelSubscriptionCommentFilterInput = {
   and?: Array< ModelSubscriptionCommentFilterInput | null > | null,
   or?: Array< ModelSubscriptionCommentFilterInput | null > | null,
   authorId?: ModelStringInput | null,
-};
-
-export type CheckLowStockMutationVariables = {
-};
-
-export type CheckLowStockMutation = {
-  checkLowStock?:  {
-    __typename: "LowStockResult",
-    message: string,
-    lowStockProducts:  Array< {
-      __typename: "LowStockProduct",
-      name: string,
-      stock: number,
-    } >,
-  } | null,
 };
 
 export type CreateProductMutationVariables = {
@@ -697,6 +670,44 @@ export type DeleteCommentMutation = {
   } | null,
 };
 
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    email: string,
+    name: string,
+    role: UserRole,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      email: string,
+      name: string,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetProductQueryVariables = {
   id: string,
 };
@@ -748,44 +759,6 @@ export type ListProductsQuery = {
       images?: Array< string | null > | null,
       createdBy?: string | null,
       updatedBy?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetUserQueryVariables = {
-  id: string,
-};
-
-export type GetUserQuery = {
-  getUser?:  {
-    __typename: "User",
-    id: string,
-    email: string,
-    name: string,
-    role: UserRole,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListUsersQueryVariables = {
-  filter?: ModelUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListUsersQuery = {
-  listUsers?:  {
-    __typename: "ModelUserConnection",
-    items:  Array< {
-      __typename: "User",
-      id: string,
-      email: string,
-      name: string,
-      role: UserRole,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -875,6 +848,57 @@ export type CommentsByProductIdQuery = {
   } | null,
 };
 
+export type OnCreateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    email: string,
+    name: string,
+    role: UserRole,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    email: string,
+    name: string,
+    role: UserRole,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    email: string,
+    name: string,
+    role: UserRole,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateProductSubscriptionVariables = {
   filter?: ModelSubscriptionProductFilterInput | null,
 };
@@ -956,57 +980,6 @@ export type OnDeleteProductSubscription = {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
     } | null,
-  } | null,
-};
-
-export type OnCreateUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
-  id?: string | null,
-};
-
-export type OnCreateUserSubscription = {
-  onCreateUser?:  {
-    __typename: "User",
-    id: string,
-    email: string,
-    name: string,
-    role: UserRole,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
-  id?: string | null,
-};
-
-export type OnUpdateUserSubscription = {
-  onUpdateUser?:  {
-    __typename: "User",
-    id: string,
-    email: string,
-    name: string,
-    role: UserRole,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
-  id?: string | null,
-};
-
-export type OnDeleteUserSubscription = {
-  onDeleteUser?:  {
-    __typename: "User",
-    id: string,
-    email: string,
-    name: string,
-    role: UserRole,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 

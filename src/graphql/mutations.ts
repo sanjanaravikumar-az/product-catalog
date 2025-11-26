@@ -8,21 +8,6 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
-export const checkLowStock = /* GraphQL */ `mutation CheckLowStock {
-  checkLowStock {
-    message
-    lowStockProducts {
-      name
-      stock
-      __typename
-    }
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CheckLowStockMutationVariables,
-  APITypes.CheckLowStockMutation
->;
 export const createProduct = /* GraphQL */ `mutation CreateProduct(
   $input: CreateProductInput!
   $condition: ModelProductConditionInput

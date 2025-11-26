@@ -53,17 +53,47 @@
       "auth": {
         "productcatalog6e145452": {}
       },
+      "api": {
+        "productcatalog": {}
+      },
+      "storage": {
+        "productimages3": {}
+      },
       "function": {
-        "lowStockAlert": {
+        "productcatalogfunction": {
           "deploymentBucketName": "amplify-productcatalog-newenv-d05e8-deployment",
-          "s3Key": "amplify-builds/lowStockAlert-47324a4f632b4a566139-build.zip"
+          "s3Key": "amplify-builds/productcatalogfunction-5443623867334f5a7171-build.zip"
         }
+      }
+    }
+  },
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-productcatalog-main-ba67c-authRole",
+      "UnauthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-main-ba67c-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-main-ba67c-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-productcatalog-main-ba67c-deployment",
+      "UnauthRoleName": "amplify-productcatalog-main-ba67c-unauthRole",
+      "StackName": "amplify-productcatalog-main-ba67c",
+      "StackId": "arn:aws:cloudformation:us-east-1:079385506759:stack/amplify-productcatalog-main-ba67c/bc790c20-cae0-11f0-9623-0e23b58d8e69",
+      "AmplifyAppId": "d2lgobnfhyrnhh"
+    },
+    "categories": {
+      "auth": {
+        "productcatalog6e145452": {}
       },
       "api": {
         "productcatalog": {}
       },
       "storage": {
         "productimages3": {}
+      },
+      "function": {
+        "lowstockproductcatalog": {
+          "deploymentBucketName": "amplify-productcatalog-main-ba67c-deployment",
+          "s3Key": "amplify-builds/lowstockproductcatalog-726367317a6f74332b7a-build.zip"
+        }
       }
     }
   }

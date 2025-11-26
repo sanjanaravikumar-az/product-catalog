@@ -66,16 +66,24 @@
     }
   },
   "function": {
-    "lowStockAlert": {
+    "lowstockproductcatalog": {
       "build": true,
       "dependsOn": [
         {
           "attributes": [
+            "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
           ],
           "category": "api",
           "resourceName": "productcatalog"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "productcatalog6e145452"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -83,19 +91,19 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_lowStockAlert_deploymentBucketName": {
+    "AMPLIFY_function_lowstockproductcatalog_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "lowStockAlert"
+          "resourceName": "lowstockproductcatalog"
         }
       ]
     },
-    "AMPLIFY_function_lowStockAlert_s3Key": {
+    "AMPLIFY_function_lowstockproductcatalog_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "lowStockAlert"
+          "resourceName": "lowstockproductcatalog"
         }
       ]
     }
