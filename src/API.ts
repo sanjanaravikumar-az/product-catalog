@@ -445,6 +445,21 @@ export type ModelSubscriptionCommentFilterInput = {
   authorId?: ModelStringInput | null,
 };
 
+export type CheckLowStockQueryVariables = {
+};
+
+export type CheckLowStockQuery = {
+  checkLowStock?:  {
+    __typename: "LowStockResult",
+    message: string,
+    lowStockProducts:  Array< {
+      __typename: "LowStockProduct",
+      name: string,
+      stock: number,
+    } >,
+  } | null,
+};
+
 export type CheckLowStockMutationVariables = {
 };
 
