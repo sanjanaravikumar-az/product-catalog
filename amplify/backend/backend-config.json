@@ -65,6 +65,12 @@
       "service": "Cognito"
     }
   },
+  "custom": {
+    "customProdInventory": {
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    }
+  },
   "function": {
     "lowstockproductcatalog": {
       "build": true,
