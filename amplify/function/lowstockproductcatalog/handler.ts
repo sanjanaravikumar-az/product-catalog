@@ -26,7 +26,9 @@ interface LowStockResponse {
     }>;
 }
 
-const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT!;
+const GRAPHQL_API_ID = process.env.GRAPHQL_API_ID!;
+const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
+const GRAPHQL_ENDPOINT = `https://${GRAPHQL_API_ID}.appsync-api.${AWS_REGION}.amazonaws.com/graphql`;
 const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT!;
 const LOW_STOCK_THRESHOLD = parseInt(process.env.LOW_STOCK_THRESHOLD || '5');
 

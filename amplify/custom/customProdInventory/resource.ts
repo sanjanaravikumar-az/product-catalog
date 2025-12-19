@@ -27,15 +27,20 @@ export class cdkStack extends Construct {
             timeout: cdk.Duration.seconds(30),
             code: lambda.Code.fromInline(`
 const { PublishCommand, SNSClient } = require('@aws-sdk/client-sns');
-const https = require('https');
 const snsClient = new SNSClient({ region: process.env.AWS_REGION });
 
 exports.handler = async () => {
-  const products = await fetchProducts();
-  const lowStock = products.filter(p => p.stock !== null && p.stock < 5);
+  // Mock inventory data for demonstration
+  const products = [
+    { id: '1', engword: 'Product A', stock: 2 },
+    { id: '2', engword: 'Product B', stock: 8 },
+    { id: '3', engword: 'Product C', stock: 1 }
+  ];
+  
+  const lowStock = products.filter(p => p.stock < 5);
   
   if (lowStock.length > 0) {
-    const message = \`Low Stock Alert: \${lowStock.length} products need restocking\`;
+    const message = \`Low Stock Alert: \${lowStock.length} products need restocking: \${lowStock.map(p => p.engword).join(', ')}\`;
     
     await snsClient.send(new PublishCommand({
       TopicArn: process.env.SNS_TOPIC_ARN,
@@ -46,42 +51,9 @@ exports.handler = async () => {
   
   return { statusCode: 200, lowStockCount: lowStock.length };
 };
-
-async function fetchProducts() {
-  return new Promise((resolve, reject) => {
-    const query = 'query ListProducts { listProducts { items { id engword stock } } }';
-    const postData = JSON.stringify({ query });
-    const url = new URL(process.env.GRAPHQL_ENDPOINT);
-    
-    const req = https.request({
-      hostname: url.hostname,
-      port: 443,
-      path: url.pathname,
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': process.env.GRAPHQL_API_KEY,
-        'Content-Length': Buffer.byteLength(postData)
-      }
-    }, (res) => {
-      let data = '';
-      res.on('data', (chunk) => data += chunk);
-      res.on('end', () => {
-        const response = JSON.parse(data);
-        resolve(response.data?.listProducts?.items || []);
-      });
-    });
-    
-    req.on('error', reject);
-    req.write(postData);
-    req.end();
-  });
-}
       `),
             environment: {
-                SNS_TOPIC_ARN: topic.topicArn,
-                GRAPHQL_ENDPOINT: data.resources.cfnResources.cfnGraphqlApi.attrGraphQlUrl,
-                GRAPHQL_API_KEY: data.resources.cfnResources.cfnApiKey!.attrApiKey
+                SNS_TOPIC_ARN: topic.topicArn
             }
         });
         const emailNotifier = new lambda.Function(this, 'EmailNotifier', {
