@@ -81,7 +81,10 @@ export const data = defineData({
             modelNameToTableNameMapping: { User: "User-q3bnmmb6p5fbhlqbljf4yexsdq-main", Product: "Product-q3bnmmb6p5fbhlqbljf4yexsdq-main", Comment: "Comment-q3bnmmb6p5fbhlqbljf4yexsdq-main" }
         }],
     authorizationModes: {
-        defaultAuthorizationMode: "iam"
+        defaultAuthorizationMode: "iam",
+        apiKeyAuthorizationMode: {
+            expiresInDays: 365
+        }
     },
     schema
 });
