@@ -17,6 +17,12 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolName": "string"
     }
   },
+  "custom": {
+    "customProdInventory": {
+      "InventoryAlertTopicArn": "string",
+      "InventoryCheckerFunctionName": "string"
+    }
+  },
   "function": {
     "lowstockproductcatalog": {
       "Arn": "string",

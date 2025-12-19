@@ -1,4 +1,6 @@
-# Multi-user Product Catalog with IAM-based Role Access Control
+import { defineData } from "@aws-amplify/backend";
+
+const schema = `# Multi-user Product Catalog with IAM-based Role Access Control
 
 enum UserRole {
   ADMIN
@@ -64,9 +66,22 @@ type LowStockResponse {
 }
 
 type Query {
-  checkLowStock: LowStockResponse @function(name: "lowstockproductcatalog-${env}") @auth(rules: [
+  checkLowStock: LowStockResponse @function(name: "lowstockproductcatalog-\${env}") @auth(rules: [
     { allow: private, provider: iam },
     { allow: public, provider: apiKey }
   ])
 }
 
+`;
+
+export const data = defineData({
+    migratedAmplifyGen1DynamoDbTableMappings: [{
+            //The "branchname" variable needs to be the same as your deployment branch if you want to reuse your Gen1 app tables
+            branchName: "main",
+            modelNameToTableNameMapping: { User: "User-q3bnmmb6p5fbhlqbljf4yexsdq-main", Product: "Product-q3bnmmb6p5fbhlqbljf4yexsdq-main", Comment: "Comment-q3bnmmb6p5fbhlqbljf4yexsdq-main" }
+        }],
+    authorizationModes: {
+        defaultAuthorizationMode: "iam"
+    },
+    schema
+});
