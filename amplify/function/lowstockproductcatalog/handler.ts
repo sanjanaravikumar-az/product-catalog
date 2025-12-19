@@ -7,11 +7,28 @@
 	REGION
 Amplify Params - DO NOT EDIT */
 
-const https = require('https');
+import { Handler } from 'aws-lambda';
+import * as https from 'https';
 
-const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT;
-const LOW_STOCK_THRESHOLD = parseInt(process.env.LOW_STOCK_THRESHOLD) || 5;
+interface Product {
+    id: string;
+    engword: string;
+    stock: number | null;
+    price?: number;
+    category?: string;
+}
+
+interface LowStockResponse {
+    message: string;
+    lowStockProducts: Array<{
+        name: string;
+        stock: number | null;
+    }>;
+}
+
+const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT!;
+const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT!;
+const LOW_STOCK_THRESHOLD = parseInt(process.env.LOW_STOCK_THRESHOLD || '5');
 
 const listProductsQuery = `
   query ListProducts {
@@ -27,7 +44,7 @@ const listProductsQuery = `
   }
 `;
 
-exports.handler = async (event) => {
+export const handler: Handler = async (event: any): Promise<LowStockResponse> => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
     
     try {
@@ -47,14 +64,15 @@ exports.handler = async (event) => {
         };
         
     } catch (error) {
-        console.error('Error checking stock:', error.message);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Error checking stock:', errorMessage);
         console.error('Full error:', error);
-        throw new Error(`Error checking stock: ${error.message}`);
+        throw new Error(`Error checking stock: ${errorMessage}`);
     }
 };
 
-async function fetchProducts() {
-    return new Promise((resolve, reject) => {
+async function fetchProducts(): Promise<Product[]> {
+    return new Promise<Product[]>((resolve, reject) => {
         const postData = JSON.stringify({
             query: listProductsQuery
         });
