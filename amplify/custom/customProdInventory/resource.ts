@@ -80,8 +80,8 @@ async function fetchProducts() {
       `),
             environment: {
                 SNS_TOPIC_ARN: topic.topicArn,
-                GRAPHQL_ENDPOINT: data.resources.GraphQLAPIEndpointOutput,
-                GRAPHQL_API_KEY: data.resources.GraphQLAPIKeyOutput
+                GRAPHQL_ENDPOINT: data.resources.cfnResources.cfnGraphqlApi.attrGraphQlUrl,
+                GRAPHQL_API_KEY: data.resources.cfnResources.cfnApiKey!.attrApiKey
             }
         });
         const emailNotifier = new lambda.Function(this, 'EmailNotifier', {

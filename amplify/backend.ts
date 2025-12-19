@@ -11,6 +11,14 @@ const backend = defineBackend({
     storage,
     lowstockproductcatalog
 });
+
+// Connect function to data resource
+backend.lowstockproductcatalog.addEnvironment("API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT", backend.data.resources.cfnResources.cfnGraphqlApi.attrGraphQlUrl);
+backend.lowstockproductcatalog.addEnvironment("API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT", backend.data.resources.cfnResources.cfnApiKey!.attrApiKey);
+backend.lowstockproductcatalog.addEnvironment("API_PRODUCTCATALOG_GRAPHQLAPIIDOUTPUT", backend.data.resources.graphqlApi.apiId);
+backend.lowstockproductcatalog.addEnvironment("AUTH_PRODUCTCATALOG6E145452_USERPOOLID", backend.auth.resources.userPool.userPoolId);
+backend.lowstockproductcatalog.addEnvironment("ENV", "main");
+backend.lowstockproductcatalog.addEnvironment("REGION", "us-east-1");
 const cfnUserPool = backend.auth.resources.cfnResources.cfnUserPool;
 cfnUserPool.usernameAttributes = ["email"];
 cfnUserPool.policies = {
