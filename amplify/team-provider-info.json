@@ -1,15 +1,15 @@
 {
   "main": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-productcatalog-main-ba67c-authRole",
-      "UnauthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-main-ba67c-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-main-ba67c-authRole",
+      "AuthRoleName": "amplify-productcatalog-main-2a4ef-authRole",
+      "UnauthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-main-2a4ef-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-main-2a4ef-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-productcatalog-main-ba67c-deployment",
-      "UnauthRoleName": "amplify-productcatalog-main-ba67c-unauthRole",
-      "StackName": "amplify-productcatalog-main-ba67c",
-      "StackId": "arn:aws:cloudformation:us-east-1:079385506759:stack/amplify-productcatalog-main-ba67c/bc790c20-cae0-11f0-9623-0e23b58d8e69",
-      "AmplifyAppId": "d2lgobnfhyrnhh"
+      "DeploymentBucketName": "amplify-productcatalog-main-2a4ef-deployment",
+      "UnauthRoleName": "amplify-productcatalog-main-2a4ef-unauthRole",
+      "StackName": "amplify-productcatalog-main-2a4ef",
+      "StackId": "arn:aws:cloudformation:us-east-1:079385506759:stack/amplify-productcatalog-main-2a4ef/9cf95820-ddf8-11f0-a6ed-12fffc5a8239",
+      "AmplifyAppId": "d114aqp27nxvzq"
     },
     "categories": {
       "auth": {
@@ -17,9 +17,17 @@
       },
       "function": {
         "lowstockproductcatalog": {
-          "deploymentBucketName": "amplify-productcatalog-main-ba67c-deployment",
+          "deploymentBucketName": "amplify-productcatalog-main-2a4ef-deployment",
           "s3Key": "amplify-builds/lowstockproductcatalog-726367317a6f74332b7a-build.zip"
-        }
+        },
+        "productcatalog": {},
+        "productcatalog6e145452": {}
+      },
+      "api": {
+        "productcatalog": {}
+      },
+      "custom": {
+        "customProdInventory": {}
       },
       "storage": {
         "productimages3": {}
