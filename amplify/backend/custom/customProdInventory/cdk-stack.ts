@@ -24,21 +24,8 @@ export class cdkStack extends cdk.Stack {
       this as any,
       amplifyResourceProps!.category,
       amplifyResourceProps!.resourceName,
-      [
-        { category: 'auth', resourceName: 'productcatalog6e145452' },
-        { category: 'api', resourceName: 'productcatalog' },
-        { category: 'storage', resourceName: 'productimages3' },
-        { category: 'function', resourceName: 'lowstockproductcatalog' }
-      ]
+      [{ category: 'api', resourceName: 'productcatalog' }]
     );
-
-    // Resource references
-    const userPoolId = amplifyResources.auth.productcatalog6e145452.UserPoolId;
-    const graphqlApiId = amplifyResources.api.productcatalog.GraphQLAPIIdOutput;
-    const graphqlEndpoint = amplifyResources.api.productcatalog.GraphQLAPIEndpointOutput;
-    const graphqlApiKey = amplifyResources.api.productcatalog.GraphQLAPIKeyOutput;
-    const bucketName = amplifyResources.storage.productimages3.BucketName;
-    const functionArn = amplifyResources.function.lowstockproductcatalog.Arn;
 
     const topic = new sns.Topic(this, 'InventoryAlertTopic', {
       topicName: `inventory-alerts-${amplifyProjectInfo.projectName}-${cdk.Fn.ref('env')}`
@@ -104,11 +91,8 @@ async function fetchProducts() {
       `),
       environment: {
         SNS_TOPIC_ARN: topic.topicArn,
-        GRAPHQL_ENDPOINT: graphqlEndpoint,
-        GRAPHQL_API_KEY: graphqlApiKey,
-        USER_POOL_ID: userPoolId,
-        BUCKET_NAME: bucketName,
-        FUNCTION_ARN: functionArn
+        GRAPHQL_ENDPOINT: amplifyResources.api.productcatalog.GraphQLAPIEndpointOutput,
+        GRAPHQL_API_KEY: amplifyResources.api.productcatalog.GraphQLAPIKeyOutput
       }
     });
 
@@ -162,26 +146,6 @@ exports.handler = async (event) => {
     new cdk.CfnOutput(this, 'InventoryCheckerFunctionName', {
       value: inventoryChecker.functionName,
       description: 'Lambda function that checks inventory levels'
-    });
-
-    new cdk.CfnOutput(this, 'UserPoolIdRef', {
-      value: userPoolId,
-      description: 'Cognito User Pool ID'
-    });
-
-    new cdk.CfnOutput(this, 'GraphQLApiIdRef', {
-      value: graphqlApiId,
-      description: 'AppSync GraphQL API ID'
-    });
-
-    new cdk.CfnOutput(this, 'StorageBucketRef', {
-      value: bucketName,
-      description: 'S3 Storage Bucket Name'
-    });
-
-    new cdk.CfnOutput(this, 'LowStockFunctionRef', {
-      value: functionArn,
-      description: 'Low Stock Lambda Function ARN'
     });
   }
 }

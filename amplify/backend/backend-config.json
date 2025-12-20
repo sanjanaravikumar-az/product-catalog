@@ -67,6 +67,17 @@
   },
   "custom": {
     "customProdInventory": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "productcatalog"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "customCDK"
     }
