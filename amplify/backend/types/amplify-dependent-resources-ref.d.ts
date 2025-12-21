@@ -19,8 +19,12 @@ export type AmplifyDependentResourcesAttributes = {
   },
   "custom": {
     "customProdInventory": {
+      "GraphQLApiIdRef": "string",
       "InventoryAlertTopicArn": "string",
-      "InventoryCheckerFunctionName": "string"
+      "InventoryCheckerFunctionName": "string",
+      "LowStockFunctionRef": "string",
+      "StorageBucketRef": "string",
+      "UserPoolIdRef": "string"
     }
   },
   "function": {

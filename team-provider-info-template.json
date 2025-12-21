@@ -1,0 +1,15 @@
+{
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-productcatalog-main-<TIMESTAMP>-authRole",
+      "UnauthRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/amplify-productcatalog-main-<TIMESTAMP>-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/amplify-productcatalog-main-<TIMESTAMP>-authRole",
+      "Region": "<YOUR_REGION>",
+      "DeploymentBucketName": "amplify-productcatalog-main-<TIMESTAMP>-deployment",
+      "UnauthRoleName": "amplify-productcatalog-main-<TIMESTAMP>-unauthRole",
+      "StackName": "amplify-productcatalog-main-<TIMESTAMP>",
+      "StackId": "arn:aws:cloudformation:<YOUR_REGION>:<ACCOUNT_ID>:stack/amplify-productcatalog-main-<TIMESTAMP>/<STACK_ID>",
+      "AmplifyAppId": "<YOUR_APP_ID>"
+    }
+  }
+}
