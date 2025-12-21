@@ -1,7 +1,4 @@
 {
-  "main": {
-    "awscloudformation": {}
-  },
   "newmain": {
     "awscloudformation": {
       "AuthRoleName": "amplify-productcatalog-newmain-321b6-authRole",
