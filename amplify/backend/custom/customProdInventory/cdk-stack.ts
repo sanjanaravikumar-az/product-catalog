@@ -40,9 +40,7 @@ amplifyResourceProps!.resourceName,
     const bucketName = (amplifyResources as any).storage?.productimages3?.BucketName || `productimages3-${cdk.Fn.ref('env')}`;
     const functionArn = amplifyResources.function.lowstockproductcatalog.Arn;
 
-const topic = new sns.Topic(this, 'InventoryAlertTopic', {
-topicName: `inventory-alerts-${amplifyProjectInfo.projectName}-${cdk.Fn.ref('env')}`
-});
+const topic = new sns.Topic(this, 'InventoryAlertTopic');
 
 const inventoryChecker = new lambda.Function(this, 'InventoryChecker', {
 functionName: `inventory-checker-${amplifyProjectInfo.projectName}-${cdk.Fn.ref('env')}`,
