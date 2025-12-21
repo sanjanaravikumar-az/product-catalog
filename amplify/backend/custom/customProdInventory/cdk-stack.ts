@@ -37,7 +37,7 @@ amplifyResourceProps!.resourceName,
     const graphqlApiId = amplifyResources.api.productcatalog.GraphQLAPIIdOutput;
     const graphqlEndpoint = amplifyResources.api.productcatalog.GraphQLAPIEndpointOutput;
     const graphqlApiKey = amplifyResources.api.productcatalog.GraphQLAPIKeyOutput;
-    const bucketName = (amplifyResources as any).storage?.productimages3?.BucketName || `productimages3-${cdk.Fn.ref('env')}`;
+    const bucketName = amplifyResources.storage.productimages3.BucketName;
     const functionArn = amplifyResources.function.lowstockproductcatalog.Arn;
 
 const topic = new sns.Topic(this, 'InventoryAlertTopic');
