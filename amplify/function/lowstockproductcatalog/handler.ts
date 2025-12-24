@@ -37,10 +37,11 @@ export const handler = async (event: any) => {
             }))
         };
         
-    } catch (error) {
-        console.error('Error checking stock:', error.message);
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error('Error checking stock:', message);
         console.error('Full error:', error);
-        throw new Error(`Error checking stock: ${error.message}`);
+        throw new Error(`Error checking stock: ${message}`);
     }
 };
 
