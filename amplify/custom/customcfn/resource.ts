@@ -1,7 +1,10 @@
 import { Construct } from 'constructs';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
-import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const branchName = process.env.AWS_BRANCH ?? 'sandbox';
 
 export class CustomcfnCustomResource extends Construct {
@@ -11,7 +14,7 @@ export class CustomcfnCustomResource extends Construct {
     super(scope, id);
 
     this.template = new CfnInclude(this, 'Template', {
-      templateFile: path.join(__dirname, 'template.json'),
+      templateFile: join(__dirname, 'template.json'),
       parameters: {
         env: branchName,
         apiproductcatalogGraphQLAPIKeyOutput: data?.resources.cfnResources.cfnGraphqlApi.attrApiKey ?? '',
