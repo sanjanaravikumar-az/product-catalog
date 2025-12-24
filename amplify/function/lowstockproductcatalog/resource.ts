@@ -1,5 +1,7 @@
 import { defineFunction } from "@aws-amplify/backend";
 
+const branchName = process.env.AWS_BRANCH ?? "sandbox";
+
 export const lowstockproductcatalog = defineFunction({
     entry: "./handler.ts",
     timeoutSeconds: 25,

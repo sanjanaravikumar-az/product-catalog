@@ -1,17 +1,8 @@
-/* Amplify Params - DO NOT EDIT
-	API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT
-	API_PRODUCTCATALOG_GRAPHQLAPIIDOUTPUT
-	API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT
-	AUTH_PRODUCTCATALOG6E145452_USERPOOLID
-	ENV
-	REGION
-Amplify Params - DO NOT EDIT */
+import https from 'https';
 
-const https = require('https');
-
-const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT;
-const LOW_STOCK_THRESHOLD = parseInt(process.env.LOW_STOCK_THRESHOLD) || 5;
+const GRAPHQL_ENDPOINT = process.env.API_PRODUCTCATALOG_GRAPHQLAPIENDPOINTOUTPUT!;
+const GRAPHQL_API_KEY = process.env.API_PRODUCTCATALOG_GRAPHQLAPIKEYOUTPUT!;
+const LOW_STOCK_THRESHOLD = parseInt(process.env.LOW_STOCK_THRESHOLD || '5');
 
 const listProductsQuery = `
   query ListProducts {
@@ -27,7 +18,7 @@ const listProductsQuery = `
   }
 `;
 
-exports.handler = async (event) => {
+export const handler = async (event: any) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
     
     try {
@@ -53,7 +44,7 @@ exports.handler = async (event) => {
     }
 };
 
-async function fetchProducts() {
+async function fetchProducts(): Promise<any[]> {
     return new Promise((resolve, reject) => {
         const postData = JSON.stringify({
             query: listProductsQuery
@@ -72,10 +63,10 @@ async function fetchProducts() {
             }
         };
         
-        const req = https.request(options, (res) => {
+        const req = https.request(options, (res: any) => {
             let data = '';
             
-            res.on('data', (chunk) => {
+            res.on('data', (chunk: string) => {
                 data += chunk;
             });
             
@@ -93,7 +84,7 @@ async function fetchProducts() {
             });
         });
         
-        req.on('error', (error) => {
+        req.on('error', (error: Error) => {
             reject(error);
         });
         

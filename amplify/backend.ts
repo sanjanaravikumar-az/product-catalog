@@ -46,5 +46,20 @@ s3Bucket.bucketEncryption = {
         }
     ]
 };
-new customProdInventory(backend.createStack("customProdInventory"), "customProdInventory", backend.auth, backend.data, backend.storage, backend.functions);
-new customcfn(backend.createStack("customcfn"), "customcfn", backend.data, backend.auth, backend.custom, backend.functions, backend.storage);
+new customProdInventory(
+    backend.createStack("customProdInventory"), 
+    "customProdInventory", 
+    backend.auth, 
+    backend.data, 
+    backend.storage, 
+    { lowstockproductcatalog: backend.lowstockproductcatalog }
+);
+
+new customcfn(
+    backend.createStack("customcfn"), 
+    "customcfn", 
+    backend.data, 
+    backend.auth, 
+    { lowstockproductcatalog: backend.lowstockproductcatalog }, 
+    backend.storage
+);

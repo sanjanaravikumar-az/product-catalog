@@ -44,30 +44,6 @@
       "Type": "String",
       "Description": "Input parameter describing AppClientID attribute for auth/productcatalog6e145452 resource"
     },
-    "customcustomProdInventoryInventoryAlertTopicArn": {
-      "Type": "String",
-      "Description": "Input parameter describing InventoryAlertTopicArn attribute for custom/customProdInventory resource"
-    },
-    "customcustomProdInventoryInventoryCheckerFunctionName": {
-      "Type": "String",
-      "Description": "Input parameter describing InventoryCheckerFunctionName attribute for custom/customProdInventory resource"
-    },
-    "customcustomProdInventoryUserPoolIdRef": {
-      "Type": "String",
-      "Description": "Input parameter describing UserPoolIdRef attribute for custom/customProdInventory resource"
-    },
-    "customcustomProdInventoryGraphQLApiIdRef": {
-      "Type": "String",
-      "Description": "Input parameter describing GraphQLApiIdRef attribute for custom/customProdInventory resource"
-    },
-    "customcustomProdInventoryStorageBucketRef": {
-      "Type": "String",
-      "Description": "Input parameter describing StorageBucketRef attribute for custom/customProdInventory resource"
-    },
-    "customcustomProdInventoryLowStockFunctionRef": {
-      "Type": "String",
-      "Description": "Input parameter describing LowStockFunctionRef attribute for custom/customProdInventory resource"
-    },
     "functionlowstockproductcatalogName": {
       "Type": "String",
       "Description": "Input parameter describing Name attribute for function/lowstockproductcatalog resource"
