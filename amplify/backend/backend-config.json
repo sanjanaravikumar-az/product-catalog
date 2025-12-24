@@ -112,6 +112,65 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "customCDK"
+    },
+    "customcfn": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "productcatalog"
+        },
+        {
+          "attributes": [
+            "IdentityPoolId",
+            "IdentityPoolName",
+            "UserPoolId",
+            "UserPoolArn",
+            "UserPoolName",
+            "AppClientIDWeb",
+            "AppClientID"
+          ],
+          "category": "auth",
+          "resourceName": "productcatalog6e145452"
+        },
+        {
+          "attributes": [
+            "InventoryAlertTopicArn",
+            "InventoryCheckerFunctionName",
+            "UserPoolIdRef",
+            "GraphQLApiIdRef",
+            "StorageBucketRef",
+            "LowStockFunctionRef"
+          ],
+          "category": "custom",
+          "resourceName": "customProdInventory"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "Region",
+            "LambdaExecutionRole",
+            "LambdaExecutionRoleArn"
+          ],
+          "category": "function",
+          "resourceName": "lowstockproductcatalog"
+        },
+        {
+          "attributes": [
+            "BucketName",
+            "Region"
+          ],
+          "category": "storage",
+          "resourceName": "productimages3"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCloudformation"
     }
   },
   "function": {

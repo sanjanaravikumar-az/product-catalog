@@ -25,6 +25,12 @@ export type AmplifyDependentResourcesAttributes = {
       "LowStockFunctionRef": "string",
       "StorageBucketRef": "string",
       "UserPoolIdRef": "string"
+    },
+    "customcfn": {
+      "InventoryCheckRuleArn": "string",
+      "LowStockTopicArn": "string",
+      "ProductQueueUrl": "string",
+      "ProductTableName": "string"
     }
   },
   "function": {

@@ -33,5 +33,41 @@
         "productimages3": {}
       }
     }
+  },
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-productcatalog-main-14edb-authRole",
+      "UnauthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-main-14edb-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::079385506759:role/amplify-productcatalog-main-14edb-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-productcatalog-main-14edb-deployment",
+      "UnauthRoleName": "amplify-productcatalog-main-14edb-unauthRole",
+      "StackName": "amplify-productcatalog-main-14edb",
+      "StackId": "arn:aws:cloudformation:us-east-1:079385506759:stack/amplify-productcatalog-main-14edb/cb04a6f0-e084-11f0-a0bc-0affe529b933",
+      "AmplifyAppId": "d3c0rt6xf0uku4"
+    },
+    "categories": {
+      "auth": {
+        "productcatalog6e145452": {}
+      },
+      "function": {
+        "lowstockproductcatalog": {
+          "deploymentBucketName": "amplify-productcatalog-main-14edb-deployment",
+          "s3Key": "amplify-builds/lowstockproductcatalog-726367317a6f74332b7a-build.zip"
+        },
+        "productcatalog": {},
+        "productcatalog6e145452": {}
+      },
+      "api": {
+        "productcatalog": {}
+      },
+      "custom": {
+        "customProdInventory": {},
+        "customcfn": {}
+      },
+      "storage": {
+        "productimages3": {}
+      }
+    }
   }
 }

@@ -1,0 +1,213 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "env": {
+      "Type": "String"
+    },
+    "apiproductcatalogGraphQLAPIKeyOutput": {
+      "Type": "String",
+      "Description": "Input parameter describing GraphQLAPIKeyOutput attribute for api/productcatalog resource"
+    },
+    "apiproductcatalogGraphQLAPIIdOutput": {
+      "Type": "String",
+      "Description": "Input parameter describing GraphQLAPIIdOutput attribute for api/productcatalog resource"
+    },
+    "apiproductcatalogGraphQLAPIEndpointOutput": {
+      "Type": "String",
+      "Description": "Input parameter describing GraphQLAPIEndpointOutput attribute for api/productcatalog resource"
+    },
+    "authproductcatalog6e145452IdentityPoolId": {
+      "Type": "String",
+      "Description": "Input parameter describing IdentityPoolId attribute for auth/productcatalog6e145452 resource"
+    },
+    "authproductcatalog6e145452IdentityPoolName": {
+      "Type": "String",
+      "Description": "Input parameter describing IdentityPoolName attribute for auth/productcatalog6e145452 resource"
+    },
+    "authproductcatalog6e145452UserPoolId": {
+      "Type": "String",
+      "Description": "Input parameter describing UserPoolId attribute for auth/productcatalog6e145452 resource"
+    },
+    "authproductcatalog6e145452UserPoolArn": {
+      "Type": "String",
+      "Description": "Input parameter describing UserPoolArn attribute for auth/productcatalog6e145452 resource"
+    },
+    "authproductcatalog6e145452UserPoolName": {
+      "Type": "String",
+      "Description": "Input parameter describing UserPoolName attribute for auth/productcatalog6e145452 resource"
+    },
+    "authproductcatalog6e145452AppClientIDWeb": {
+      "Type": "String",
+      "Description": "Input parameter describing AppClientIDWeb attribute for auth/productcatalog6e145452 resource"
+    },
+    "authproductcatalog6e145452AppClientID": {
+      "Type": "String",
+      "Description": "Input parameter describing AppClientID attribute for auth/productcatalog6e145452 resource"
+    },
+    "customcustomProdInventoryInventoryAlertTopicArn": {
+      "Type": "String",
+      "Description": "Input parameter describing InventoryAlertTopicArn attribute for custom/customProdInventory resource"
+    },
+    "customcustomProdInventoryInventoryCheckerFunctionName": {
+      "Type": "String",
+      "Description": "Input parameter describing InventoryCheckerFunctionName attribute for custom/customProdInventory resource"
+    },
+    "customcustomProdInventoryUserPoolIdRef": {
+      "Type": "String",
+      "Description": "Input parameter describing UserPoolIdRef attribute for custom/customProdInventory resource"
+    },
+    "customcustomProdInventoryGraphQLApiIdRef": {
+      "Type": "String",
+      "Description": "Input parameter describing GraphQLApiIdRef attribute for custom/customProdInventory resource"
+    },
+    "customcustomProdInventoryStorageBucketRef": {
+      "Type": "String",
+      "Description": "Input parameter describing StorageBucketRef attribute for custom/customProdInventory resource"
+    },
+    "customcustomProdInventoryLowStockFunctionRef": {
+      "Type": "String",
+      "Description": "Input parameter describing LowStockFunctionRef attribute for custom/customProdInventory resource"
+    },
+    "functionlowstockproductcatalogName": {
+      "Type": "String",
+      "Description": "Input parameter describing Name attribute for function/lowstockproductcatalog resource"
+    },
+    "functionlowstockproductcatalogArn": {
+      "Type": "String",
+      "Description": "Input parameter describing Arn attribute for function/lowstockproductcatalog resource"
+    },
+    "functionlowstockproductcatalogRegion": {
+      "Type": "String",
+      "Description": "Input parameter describing Region attribute for function/lowstockproductcatalog resource"
+    },
+    "functionlowstockproductcatalogLambdaExecutionRole": {
+      "Type": "String",
+      "Description": "Input parameter describing LambdaExecutionRole attribute for function/lowstockproductcatalog resource"
+    },
+    "functionlowstockproductcatalogLambdaExecutionRoleArn": {
+      "Type": "String",
+      "Description": "Input parameter describing LambdaExecutionRoleArn attribute for function/lowstockproductcatalog resource"
+    },
+    "storageproductimages3BucketName": {
+      "Type": "String",
+      "Description": "Input parameter describing BucketName attribute for storage/productimages3 resource"
+    },
+    "storageproductimages3Region": {
+      "Type": "String",
+      "Description": "Input parameter describing Region attribute for storage/productimages3 resource"
+    }
+  },
+  "Resources": {
+    "ProductQueue": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName": {
+          "Fn::Sub": "product-catalog-queue-${env}"
+        },
+        "VisibilityTimeout": 300
+      }
+    },
+    "ProductTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": {
+          "Fn::Sub": "product-catalog-table-${env}"
+        },
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST"
+      }
+    },
+    "LowStockAlertTopic": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "TopicName": {
+          "Fn::Sub": "product-catalog-low-stock-${env}"
+        },
+        "DisplayName": "Product Catalog Low Stock Alerts"
+      },
+      "DependsOn": [
+        "ProductQueue",
+        "ProductTable"
+      ]
+    },
+    "InventoryCheckRule": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Name": {
+          "Fn::Sub": "inventory-check-${env}"
+        },
+        "Description": "Trigger inventory check daily",
+        "ScheduleExpression": "rate(24 hours)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "functionlowstockproductcatalogArn"
+            },
+            "Id": "LowStockTarget"
+          }
+        ]
+      }
+    },
+    "LambdaInvokePermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "functionlowstockproductcatalogName"
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "InventoryCheckRule",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "LowStockAlertTopic"
+      ]
+    }
+  },
+  "Outputs": {
+    "ProductQueueUrl": {
+      "Value": {
+        "Ref": "ProductQueue"
+      },
+      "Description": "URL of the Product Queue"
+    },
+    "ProductTableName": {
+      "Value": {
+        "Ref": "ProductTable"
+      },
+      "Description": "Name of the Product DynamoDB Table"
+    },
+    "LowStockTopicArn": {
+      "Value": {
+        "Ref": "LowStockAlertTopic"
+      },
+      "Description": "ARN of the Low Stock Alert SNS Topic"
+    },
+    "InventoryCheckRuleArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "InventoryCheckRule",
+          "Arn"
+        ]
+      },
+      "Description": "ARN of the Inventory Check EventBridge Rule"
+    }
+  },
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.15.0-next-3.0\",\"stackType\":\"custom-customCloudformation\",\"metadata\":{\"whyContinueWithGen1\":\"\"}}"
+}
