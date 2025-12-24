@@ -24,6 +24,7 @@ export class CustomcfnCustomResource extends Construct {
         authproductcatalog6e145452IdentityPoolName: auth?.resources.cfnResources.cfnIdentityPool.identityPoolName ?? '',
         authproductcatalog6e145452UserPoolId: auth?.resources.userPool.userPoolId ?? '',
         authproductcatalog6e145452UserPoolArn: auth?.resources.userPool.userPoolArn ?? '',
+        authproductcatalog6e145452UserPoolName: auth?.resources.cfnResources.cfnUserPool.userPoolName ?? '',
         authproductcatalog6e145452AppClientIDWeb: auth?.resources.userPoolClient.userPoolClientId ?? '',
         authproductcatalog6e145452AppClientID: auth?.resources.userPoolClient.userPoolClientId ?? '',
         functionlowstockproductcatalogName: functions?.lowstockproductcatalog?.resources.lambda.functionName ?? '',
